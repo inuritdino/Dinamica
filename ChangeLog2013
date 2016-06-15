@@ -1,0 +1,566 @@
+2014-01-29  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (main_interp): Minor bugs with memory
+	allocation under the "Calculate" menu of the Main Menu.
+
+2014-01-23  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (rand_interp): Random menu receives the
+	new command line treatment procedures. See read_command_line and
+	read_next_command functions. Additionally, this menu receives the
+	functionality to constrain the random throwing intervals for the
+	specific variables set by the user.
+	(graphics_interp): Free-ing symbuf variable under all *_interp
+	function before every return statement withing those functions. Or
+	as a partial solution, remove all return 0; statement under all
+	else if conditionals in those menus and replace all of them with
+	one single return 0; at the end of the functions. Except for the
+	return 1000; statements indicating the exit from the menus.
+	(rand_interp): Menu for specifying the constraints for the random
+	throwing.
+
+	* src/random.c (random_free): First, "freeing" function. For the
+	Random stuff. It is invoked in the din_close() function closing
+	the program.
+	(random_init): New boundaries for the random throwing for each
+	variable. Which variable is limited by the special constraints is
+	determined in the logical array.
+
+2014-01-21  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* Some declarations missing fixed. Plus, some minor mistypos in
+	the code as well as some headers were undefined. New compiler, when
+	moved to the new OS, has complained about all of this.
+
+2013-12-15  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (read_command_line): New function for
+	reading the command line input. More flexible, requires only one
+	macro value defining the max length of the input. Implementation
+	to the *_interp functions needs to be done.
+	(lyap_interp): New Lyapunov menu with new system for acquiring
+	command line input.
+
+2013-12-14  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (rand_interp): New random menu is
+	approaching.
+
+2013-12-11  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (rand_interp): Multiple runs with random
+	initial conditions through random throwing in the N-D sphere
+	determined by the radius and lower limit/offset. Includes now the
+	determining of the dynamical regimes.
+
+	* src/trajectory.c (get_dynamics_nd): N-dimensional dynamics
+	checking is suitable for 1D as well
+	(get_sys_dynamics): The wrapper function to call sequentially 1D
+	and ND dynamics checkers.
+	(report_translate): The function translates the report structure
+	into the human language.
+
+2013-11-25  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/solver.c (solver_lang): Milstein method for the stochastic
+	Ito Differential Equations. Calculates numerically the derivative
+	of the stochastic term.
+
+	* src/ode.c (jac_general): General purpose Jacobian calculation
+	function. Calculation is done numerically. Almost a copy of
+	jac(...) function. Main difference, it can be applied to any
+	function of the form func(t,x[],f[],void *params). Useful for
+	calculation of the stochastic terms derivatives.
+
+	* src/input_interpreter.c (numerics_interp): Jacobian test
+	command. Prints the jacobian for both deterministic and stochastic
+	(if exists) parts of the system.
+
+2013-11-21  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/solver.c (solver_lang): Solver for the Stochastic
+	Differential equations, using the integrals defined on the
+	Brownian motion.
+	(solver): Modified Euler algorithms written manually, i.e.
+	not from a library.
+	(solver_lang): Euler-Maruyama method is accomplished.
+
+	* src/random.c (init_rand): Random generation system is under
+	serious review!
+	(init_rng): New interface for the random number generation. The
+	central function is init_rng().
+
+2013-11-20  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/ode.c (func_odeiv): lang_amend() function generated at the
+	compilation stage produces the valid ksi[i] values for the
+	Langevin amendments.
+
+	* src/read_ode.c (read_source): Langevin noise amendments can be
+	added in to the .ode file through 'lang' or 'l' directive. Full
+	support of the Langevin noise amendment symbolic expression is to
+	be done.
+
+2013-11-19  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (main_interp): Started the process of
+	replacing mynum.method with method variable.
+
+	* src/init.h (): Constant size for the method char arrays.
+	(METH_NAME_LEN): All method and method2 instances are constant
+	arrays now. As well as the old style mynum.method(2) vars.
+
+2013-08-14  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/graph.c (gplot_frames): general function for plotting the
+	frames (time series).
+
+2013-08-13  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (traj_interp): Escape the N-dimensional
+	dynamics test whenever single 1-D test has failed.
+
+	* src/trajectory.c (get_dynamics_1d): Check the number of slopes
+	after the removing of non-real slopes.
+
+2013-08-12  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_nd): N-D dynamics
+	checking. Compare the last t0 of the slope in all sub-systems to
+	get information of the phase (suitable only for the oscillatory regime).
+
+2013-07-18  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_varInd): Calculate properly the variable
+	indices for the different sub-systems.
+
+2013-07-17  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_nd): N-D dynamics
+	checking. Compare the last base and slope amplitudes between
+	sub-systems to make the conclusion about homogeneity of the
+	dynamics.
+
+2013-07-11  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_1d): the function returns the
+	information on the slopes calculated. This is needed for the
+	further N-D checking.
+
+2013-07-10  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/din_main.c (main): Removing unnecessary files after
+	the program finishes.
+	(main): Removed -g flag to the compiler to avoid heaping of the
+	directory with the technical files.
+
+2013-05-25  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Fix: different method correct parsing of
+	the parameters and variables going to the data output file.
+
+	* src/graph.c (gplot_results): Fix the problem with replotting the
+	MA-trajectory with 2nd complex run.
+
+2013-05-17  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (analyze_traj): Parameters to the output data file.
+	(analyze_traj): Variable names to the output data file.
+
+2013-05-10  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (main_interp): Print variables and their
+	indices in the system.
+
+	* src/read_ode.c (process_par): Printing error if the value of a
+	par has the first non-digit letter.
+
+2013-05-09  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_nd): Multi-dimensional dynamics
+	checking started.
+
+2013-04-16  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (file_interp): Load the output file and
+	update the (stochastic) periods information.
+
+	* src/file.c (read_out_file): Read output file.
+
+	* src/integrator.c (analyze_traj): output file name affix is based
+	on the cross_level value and = _c<value>.
+
+2013-04-15  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (periods_interp): Multiple cross_level
+	values.
+
+	* src/cross.c (compute_period): cross_level is an argument for the
+	function.
+
+2013-04-11  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (copy_history): Command history
+	saved. Can reused using the ! command.
+	(numerics_interp): Better looking numerics menu.
+
+2013-04-10  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/graph.c (gplot_results): Append the .ma extension only when
+	the file is not .ma.
+
+2013-04-09  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/random.c (generate_seed): Generator uses CLOCKS_PER_SEC to
+	avoid huge numbers. Given that usually there are 10^6 clock ticks in a
+	second, the generator uses the deciseconds for seed, i.e. 0.1 sec
+	as units.
+	The preprocessor directive checking the existence of
+	CLOCKS_PER_SEC and uses this value / 10 as normalization term. If
+	it is not found it uses the constant of 10^5.
+
+2013-04-06  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (analyze_traj): cross_level and cross
+	information in the output file.
+
+	* README: New README file for the program. Updated for both 0.10
+	and 0.10.1 versions.
+
+2013-04-05  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (analyze_traj): Remove the ampl,max_x and min_x
+	entities from the output file.
+
+	* src/cross.c (compute_period): Calculated the amplitude only when
+	required for determining the perVarInd. Otherwise, we do not need
+	it. In case of multiple frame only the last frame ampl, max and
+	min values are stored. So, unless needed in the future (and then
+	calculated for the each frame) we remove this entities from the
+	_out file as well.
+
+2013-04-03  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (periods_interp): Updated period map
+	under the periods menu.
+
+2013-04-02  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/file.c (get_info_data): No ma_span output for the regular
+	data file. Only for the .ma file.
+
+	* src/input_interpreter.c (file_interp): Plotting function
+	automatically appends ".ma" extension to the analyzed file, so
+	remove this extension before call to that function.
+
+2013-04-01  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/graph.c (gplot_results): MA-trajectory in the plotting
+	function.
+
+	* src/integrator.c (run): ma_span in the info array.
+
+2013-03-31  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* configure.ac: Ver. 0.10 is for gsl_odeiv support. The newer
+	versions of GSL library must contain gsl_odeiv2. So ver. 0.10.1
+	for that, it uses gsl_odeiv2.
+
+2013-03-30  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* configure.ac: Reversed the order of the library checking. Also
+	check for gsl_odeiv2_step_alloc function as it comes from the most
+	recent version of GSL.
+
+2013-03-29  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (graphics_interp): HAVE_GNUPLOT gives
+	the right to change graph_flag. The same in the read_ode.c where
+	the .ode input file is read.
+
+	* configure.ac: Extensive Gnuplot check in the configure.
+
+2013-03-28  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* configure.ac: The first seeming plausible configure and
+	corresponding makefiles are created for the package. configure.ac
+	uses some trick to include the path for the libdin.a for Dinamica,
+	since the package requires compilation during the functioning,
+	which is not usual situation.
+	HAVE_GNUPLOT definition, if the program is found during the
+	configure check.
+
+2013-03-22  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): MA analysis of the trajectory if the
+	ma_span is specified.
+
+2013-03-21  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): New moving average(MA) possibility for
+	approximation of the trajectory.
+
+2013-03-14  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (process_inter_par): Print error if not found the
+	option name.
+
+2013-03-13  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_1d): If there are no peak/trough
+	found during the exploration of the trajectory, there must be
+	either not enough data (too little time of simulation) OR the real
+	SS occured.
+
+2013-03-12  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/graph.c (send_to_eps): Just plotting commands, not taking
+	the file name. The latter is up to the corresponding menu
+	functions in input_interpreter().
+
+	* src/cross.c (period_cross): nper is updated inside the function
+	call.
+	(compute_hist_per): Wrong center of the histogram was fixed.
+
+	* src/input_interpreter.c (periods_interp): per_thresh is the
+	period threshold for the period_cross() function. Global variable.
+
+	* src/cross.c (period_cross): New cross period algorithm
+	accounting for the pre-defined threshold. The summing of
+	subsequent periods is carried out to get the threshold.
+
+2013-03-01  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (analyze_traj): The function takes an
+	additional argument -- the output file name modifier.
+
+	* src/input_interpreter.c (file_interp): Output file name modifier
+	is changeable through the file menu.
+
+	* src/init.c (init_command_line): out_name is used to keep the
+	affix name for the output file. out_name is appended to the
+	data_name to form output filename.
+
+2013-02-25  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/continue.c (run_extend): It is possible to fit the
+	simulation time to the desired number of periods. The function
+	runs an addtional simulation in order to estimate the mean period
+	and multiplies this estimate to the number of periods that user
+	wants. This value is set for the total time of the simulation.
+	(run_extend): Estimation of the period is carried out by the
+	deterministic period, if one has it. However, mean of the
+	stochastic periods is the bad estimate, so we use max as an
+	estimator.
+
+2013-02-23  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (cont_interp): Run on data. If one has
+	obtained the actual trajectories and wants to reanalyze them for
+	different technical parameters, one can use this option.
+
+2013-02-21  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (analyze_traj): Change the output file name,
+	now with .csv extenstion and comma separated data.
+
+	* src/input_interpreter.c (cont_interp): Range and values for the
+	parameter to take in the continuation menu.
+
+2013-02-20  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/continue.c (run_extend): Multiple runs for different
+	parameter sets. Extended continuation menu. Rennovation of the
+	menu has started.
+
+	* src/file.c (set_info_data): Set the info array of the trajectory.
+
+	* src/integrator.c (analyze_traj): Introduce a new file generated
+	by the function. This contains the common entities computed from
+	the data file. It has an extension to the <data_name> ".out".
+
+2013-02-18  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/main.c (main): Mark the obsolete command line arguments in
+	the function for the future remove.
+
+	* src/trajectory.c (check_slope_ampl): The function has the sane
+	amplitudes check: it checks with the certain level of error every
+	pair that is subject to the comparison(according to the 95/5%
+	criterion. In the pair, at lease one value must be larger than the
+	error level.
+	(slope): Increase in the slope amplitudes indicate the OS.
+	(check_slope_ampl): 1% of the max amplitudes is the error level
+	for the function to determine booms and drops of the amplitudes.
+	(slope): Increase is measured in %, that is larger than 100% if it
+	is real increase.
+	(slope): We do not need 50% criterion for the equal amplitudes for
+	the OS, since if only two last amplitudes are equal we are at OS.
+	(slope): Debugging info on the increase of the amplitudes:
+	percentage of increase on the each comparison test.
+
+	* src/din_main.c (main): LDFLAGS can be /usr/local/lib as well as
+	/opt/local/lib satisfying both Linux and Mac so far. At max, the
+	gcc/ld will give a warning about non-existing directory for the
+	libraries.
+
+	* src/cross.c (peak_trough2): Remove the error level to compare
+	with from the peak/trough determining function.
+
+2013-02-17  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/graph.c (send_to_eps): Max file name length is 100 symbols.
+
+	* src/integrator.c (write_data_file): Chenge the format of
+	printing.
+
+2013-02-16  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (check_slope_ampl): Checking the amplitude is
+	improved. Seems to work on all considered cases.
+
+	* src/cross.c (peak_trough): Improved peak/trough computing
+	function, taking into account for plateau of equal(!) values.
+
+2013-02-13  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/random.c (generate_seed): generate seed for the random
+	generator as clocks defined by the standard library function
+	clock().
+
+2013-02-11  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (analyze_traj): Plotting within this function.
+
+	* src/read_ode.c (read_source): Correct position of the trailing
+	null character for the var_name. Before caused a wrong var names
+	read from the ode file.
+
+2013-02-04  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* everywhere printf Qualifiers giving warning messages on Mac were replaced
+	with more correct ones.
+
+	* src/din_main.c (main): Changed compilation LDFLAGS from
+	-L/usr/local/lib(Linux) to -L/opt/local/lib(Mac). This should be
+	arranged automatically in the future.
+
+	* src/read_ode.c (read_source): All realloc's on the NULL pointers
+	must be substituted with malloc: dinamica fails to run on Mac
+	without this.
+
+	* Makefile (LDFLAGS+CPPFLAGS): Started maintainance of the program
+	in Mac OS X. There are some issues on the Mac I have never
+	encountered in Linux. There is a strong need in Autoconf scripts
+	for the program.
+
+2013-01-30  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* Makefile (SUBVER): Removed sub-sub-version of the program. The
+	current release is 0.9.
+
+	* src/trajectory.c (slope): Introduced the slope amplitude array
+	size since it can be changed by check_slope_ampl(...).
+
+2013-01-29  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (numerics_interp): BSIMP method in the
+	menu.
+
+	* src/integrator.c (run): Bulirsch-Stoer implicit method for the
+	stiff systems.
+
+2013-01-28  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (slope): Criteria for the oscillatory
+	regime. Compare the last slope amplitude to the rest one by
+	one. We are on the oscillatory regime if the last amplitude equal
+	to any previous one.
+
+2013-01-27  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (slope): Detect the steady state by the
+	computing the decrease in the slope amplitudes along the
+	trajectory. This happens if the trajectory is not within the
+	tolerance boundaries for being at the steady state, but tends to
+	it.
+	(slope): 50% of slopes demonstrating the monotonical decrease is
+	the criterion for the steady state.
+	(slope): Compare monotonical decrease with
+	D(abs_am,rel_am,sl_ampl[i]) rather than with the absolute
+	tolerance level(like in case of the very small amplitudes). The
+	same criterion but of the opposite sing is applied to find
+	oscillations.
+	(slope): >50% slopes demonstrate monotonical decrease in amplitude
+	AND >50% of the amplitude drop allows to claim the SS was observed.
+
+2013-01-26  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (slope): Detect the steady state by comparing
+	with the system-wide tolerance level = eps_abs_am, in other word,
+	this could be also interpreted as the computational error of the
+	integration.
+
+	* src/input_interpreter.c (periods_interp): Recompute common
+	entities within the periodics menu.
+
+2013-01-21  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (slope): This new function gets the info about
+	the slopes of the trajectory. Slope is the part of the trajectory
+	between the peak and the trough or vice versa.
+	(slope_ampl): Given the struct trajPeak of the trajectory the
+	function computes the amplitudes of the slopes. This info can be
+	used to assert the steady state and oscillatory attractors
+	convergence.
+
+	* src/cross.c (peak_trough): The function determines the peaks and
+	troughs of the deterministic time series. This info is kept in the
+	special struct trajPeak defined in the trajectory.h.
+
+2013-01-14  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/graph.c (graph_set_labels): Graph: X11 first window for the
+	kinetics/phase portraits, the second window is for the histograms
+	"thist" and "mdist" types.
+
+2013-01-12  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/graph.c (init_graph): Enhanced mode for X11 terminal of gnuplot.
+
+	* src/input_interpreter.c (periods_interp): Do not print variable
+	for periods calculation when no runs were performed.
+	(periods_interp): perVarInd --> per_var.
+
+	* src/init.h: We cannot remove per_var!!! It is a flag, while
+	perVarInd is a real index.
+
+2013-01-11  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (mol_dist): Automatic detection of the variable
+	during the creation of a molecular histogram.
+
+	* src/input_interpreter.c (traj_interp): Molecular distribution in
+	trajectory menu.
+
+	* src/trajectory.c (mol_dist): free_frame was killing frame before
+	it is used.
+
+	* src/input_interpreter.c (traj_interp): Trajectory menu.
+
+	* src/trajectory.c (mol_dist): New function to compute molecular
+	distributions. First simple implementation.
+
+	* src/cross.c (compute_period): perVarInd used everywhere instead
+	of per_var.
+
+	* src/input_interpreter.c (load_initials): New function for
+	loading the initial conditions. Simple fscanf() implementation.
+	(traj_interp): New trajectory menu is introduced.
+
+2012-12-31  Ilya Potapov  <elias.potapov@gmail.com>
+
+	NEW YEAR STARTS!
+
+	* Makefile (SUBVER): 0.9.4a release.
+

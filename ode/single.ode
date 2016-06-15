@@ -1,0 +1,28 @@
+# Single gene production of mRNA and protein, 
+#+which then represses its own synthesis
+# a is mRNA
+# b is protein
+# *b(hill) --[alpha]--> a
+# *a --[g]--> b
+#  a --[d]-->
+#  b --[dp]--> 
+init a=10,b=0
+
+da/dt=alpha/(1+(b/Kh)^n)-d*a
+db/dt=g*a-dp*b
+
+jac b=g,-dp
+jac a=-d,-alpha*n*b^(n-1)/((1+(b/Kh)^n)^2*Kh^n)
+
+par alpha=0.05,d=0.0033
+par g=0.1,dp=0.0033
+par Kh=20,n=2.6
+
+g:alpha/(1+(b/Kh)^n);a
+g:d*a;-a
+g:g*a;b
+g:dp*b;-b
+
+@method=complex,method2=rkf45,lf=0,total=5000,sf=1
+@cross=3
+done

@@ -1,0 +1,536 @@
+2012-12-31  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (file_interp): Graphics is updated when
+	new data is loaded through file menu.
+	(file_interp): Longer symbuf string for the filenames with
+	diretories specifications.
+
+	Complete usage of read_input_line(...).
+
+	* src/read_ode.c (gen_conf): cross_level can be set from ode file
+	under internal par section (@).
+
+2012-12-30  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/graph.c (send_to_eps): Resetting to the X11 graph after
+	dumping to the eps.
+
+2012-12-29  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/cross.c (compute_period): per_var is in the function.
+
+	* src/input_interpreter.c (periods_interp): per_var is the
+	variable for which the periods are calculated. per_var = -1 is
+	automatic detection by the max amplitude, as before was the only
+	method.
+
+	* src/read_ode.c (process_inter_par): var names for axis labels in
+	ode file. yax=X or yax=1 are both possible.
+	(process_inter_par): Error check for the axes specification.
+
+	* src/file.c (get_info_data): It takes one array of integers
+	indicators from the time series technical line.
+	(convert_data_file): Number of data sets is got from the info line
+	of the data source.
+	(convert_data_file): The function does no longer need the number
+	of data sets as its input. Plus, some additional corrections to
+	the temporary strings are made.
+
+	* src/integrator.c (run): Added lang_flag to the technical line of
+	the timeseries. It is redundant, we dont need it for now, for the
+	future uses.
+
+2012-12-28  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Removed storage arrays. Not completely,
+	only from the run().
+
+	* src/random.c (load_frame): Skips the first technical line in the
+	time series data file.
+
+	* src/integrator.c (analyze_traj): nPerStoch/nPerDet = 0 for non
+	complex det/stoch method(s). In order to avoid printing of period
+	of older runs.
+
+2012-12-21  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_index_trans): Gets the index of the frame
+	time which is closest to the specified time threshold.
+
+	* Makefile (SUBVER): .3a subversion.
+
+	* src/init.h: no cross_interp(). There is no need in this
+	function. We have added new global entity cross_level that can be
+	changed within the periodics menu. This entity alone completely
+	substitutes all items in the cross menu.
+
+2012-12-19  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/file.c (get_info_data): pure_det is taken into account.
+
+	* src/integrator.c (run): Introducing 'pure_determ_flag' to the
+	technical parameters of the data file.
+
+	* src/file.c (convert_data_file): Correct slightly the function to
+	reflect changes in the time series data file format.
+	(get_info_data): new function intended to read first technical
+	line in the time series source data file.
+
+	* src/integrator.c (run): Printing for multiple runs to the user,
+	every 0.2 part of the simulation is reported.
+	(run): Put some technical info in the header of the time series
+	data file. For now "#complex,nruns" where complex is true if the
+	method is complex and false otherwise.
+
+2012-12-17  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (graphics_interp): Dumping to the eps is
+	under graphics menu.
+
+	* src/graph.c (send_to_eps): Fast dump the current file to the eps.
+
+	* src/submenu.c (periodics_hist_interp): Plotting the histogram of
+	periods when it is computed.
+
+	* src/graph.c (graph_set_labels): New style of graph_set_labels()
+	which depens on the type of the plot: "tsphase" -- time series or
+	phase space and "thist" -- histogram of periods.
+
+	* src/input_interpreter.c (graphics_interp): Graphics flag in the
+	graphics menu.
+	(get_parameter): Par-initial link is now checked in this
+	function. The current value of a var is set immediately after the
+	paramter, linked to this var, gets new value.
+
+	* src/graph.c: libplot is disabled completely.
+
+2012-12-16  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* Makefile (install): `make install' copies the .so.<ver> lib file
+	to /usr/local/lib and makes link inside this directory.
+
+	* README: Updated installation instructions.
+
+	* src/input_interpreter.c (graphics_interp): X- and Y-axes can be
+	set from inside the graphics menu.
+	(graphics_interp): Grid toggle.
+
+	* Makefile (SUBVER): New graphics update up to version 0.9.2a.
+
+	* src/graph.c (gnuplot_interp): Gnuplot interactive command line.
+
+	* src/input_interpreter.c (graphics_interp): Graphics menu.
+
+	* src/graph.c (graph_set_labels): set labels to the graph if the
+	plotting x- or y-axis is changed.
+	(gplot_results): primitive function for multiple variables plots.
+
+	* src/read_ode.c (process_inter_par): graph_flag within @parameters.
+
+	* src/init.c (din_close): xs, xs[i] and ts are freed.
+
+2012-12-15  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (periods_interp): New period
+	representation under periodics menu.
+
+	* src/integrator.c (analyze_traj): periods computation
+
+2012-12-14  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (read_source): "d" letter is synonym for "done"
+	in ode file.
+
+	* src/cross.c (compute_period): Debugged enough, seems working
+	very fine.
+
+2012-12-13  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/cross.c (crossing): Completely new function.
+	(crossing): The function is finalized.
+
+	* src/integrator.c (run): The function finalized.
+	(analyze_traj): The function is intended for summary analysis of
+	the trajectory computed from the run(...) run.
+
+2012-12-12  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Rearrangements in the run()
+	function. Make it more clear. Start introducing a universal
+	analysis of the trajectories function.
+
+	* src/cross.c (compute_period): this function is universal
+	computing period/distribution from all the data both deterministic
+	and stochastic.
+
+	* src/random.c (load_frame): realloc is better than malloc, since
+	it frees the memory if the pointer was malloc-ed before.
+
+2012-12-09  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (numerics_interp): strcpy instead of
+	just assignment of method strings. This serves the memory
+	allocation and can be freed in the end of the program by
+	din_close().
+
+	* src/main.c (copyleft): Thanks to gnuplot_i library.
+
+	* Makefile (SUBVER): 0.9 version release with simple graphics
+	capability of Dinamica.
+
+	* src/graph.c (init_graph): Initial graphics set up. Gnuplot
+	and/or GNU libplot... We use gnuplot_i interface for Gnuplot
+	within C programs, written by N.Devillard.
+	(gplot_results): Plotting with Gnuplot.
+
+2012-12-08  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/init.c (din_close): Added a function finalizing the work
+	with Dinamica, i.e. closing all streams, cleaning memory etc.
+
+2012-11-14  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (process_init1): Temporary function to include
+	parameter initial conditions. The old one process_init(...) is
+	kept for a trial period.
+	(get_parameter_name): Very useful function: gets the index of
+	existing parameter name or copies the new name returning the index
+	of it, given the string of characters.
+	(process_par1): Temporary function to process parameters. The old
+	one process_par(...) is kept for a trial period.
+
+2012-11-12  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Transient run problem fixed. fprintf to
+	the data source was done when trans. flag is even zero. This caused
+	the stream corruption problem.
+	(run): Removed random generator initialization and free-ing when
+	the deterministic run is performed.
+
+2012-11-11  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/cross.c (compute_hist_per): Histogram of the periods.
+
+2012-11-10  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/random.c (compute_autocorrelation): frame_size-1 is the last
+	element. Ignore the real last one, making NaN, since covariation
+	is normalized by (frame_size-1).
+
+	* src/cross.c (compute_perStoch_autocorr): Computes the period for
+	a given variable(all too expensive) from a set of data(a number of
+	frames) in the source file
+	(get_var_perStoch): The function determines which variable to
+	compute period from. The estimator uses the difference between max
+	and min values, the variable with the max of the difference is
+	preferable.
+
+	* src/random.c (write_autocorr_file): Writes the autocorrelation
+	computed to the specified output.
+
+2012-11-09  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (read_input_line): function reading the
+	input for different command, release the input from the newline
+	and checks the length of the input.
+
+2012-11-08  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): stochastic periods, global variables
+	along with numPerStoch, i.e. number of periods computed for the
+	stochastic trajectory.
+
+	* src/cross.c (compute_peak_autocorr): Function determining the
+	first peak of the autocorrelation function.
+
+2012-11-07  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/random.c (compute_autocorrelation): Function computing the
+	autocorrelation of the signal, based on the sequential calls to
+	the gsl_stats_covariance() function.
+
+2012-11-06  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/random.c (load_frame): For analyzing ensembles of the
+	stochastic trajectories we have introduced the function reading
+	only a frame (single trajectory data) from the source data file.
+	(write_frame): writes the frame.
+	(load_frame): Reallocation memory for the frame.
+
+2012-11-05  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (get_parameter): More complex parameter
+	assignment function get_parameter().
+	(read_menu): no nargin argument to the function. Setting zero's
+	for all MAX_N_ARG command line argin's.
+	(read_menu): no nargin anymore.
+
+2012-11-02  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (write_data_file): Shortened the file, by
+	introducing new functions, like write_data_array().
+
+2012-11-01  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): the function is shorter and gsl_odeiv2
+	is now used instead of old gsl_odeiv.
+
+	* src/input_interpreter.c (check_next_arg): new function checking
+	the next argument existence of the command line
+	buffer. Additionally all strncat are substituted with strncpy in
+	menu reading system.
+
+2012-10-31  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (errors_interp): Few minor correction in
+	reading menu input.
+
+	* Makefile (SUBVER): 0.8.6a is released. Enhanced menu handling.
+
+	* src/input_interpreter.c (errors_interp): correct reading. no use
+	of external temporal buffers.
+	(numerics_interp): some correction in reading input in numerics_interp().
+
+2012-10-26  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/din_main.c (main): Correctly prepared .c file can define the
+	system skipping the complete writing of .ode file. Minimalistic
+	.ode file, however, is required. It must contain #include
+	statement specifying the external .c source, definition of the
+	variables (dX/dt=<whatever>) and parameters (par statement). It
+	may contain some other stuff as usual .ode file, only the transfer
+	of the system to the corresponding .c source is disabled.
+
+	* src/read_ode.c (read_source): init() moved back to read_source().
+
+	* src/din_main.c (main): Initialization init() moved to dinamica main.
+
+	* src/read_ode.c (process_update_vector): New update vectory
+	specification system. One needs to specify number and var
+	name. For example, g:x*y;-2x,+1y,-z. Single + and - are allowed to
+	mean +1 and -1, respectively.
+
+2012-10-25  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (read_source): Allocation for upstr was 1 too
+	short. This caused that invalid pointer problem.
+	(read_source): New copying method using memcpy.
+	(buf_strip): changed the function. buf_check() from libdin.a is
+	the similar to this (except removal of newlines '\n').
+
+2012-10-23  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/din_main.c (main): Correctly prepared .c file can be
+	compiled with -s option to dinamica without reading the
+	corresponding .ode file.
+	(extr_base): the function extracts basename from .c files from now
+	as well as .ode files.
+
+2012-10-16  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (attr_conv): New atrr_conv function trying to
+	determine the convergence to an attractor by computing euclidean
+	distances between all points and comparing them to some
+	threshold (0.01 for now found to be O.K.). Being on the
+	attractor the system must pass close to the vicinity
+	of some points,	i.e. must repeat its path in the phase space.
+
+2012-09-12  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/file.c (convert_data_file): 10 digits are not enough per
+	single value, now it is 20 and is in #define MAX_N_DIG.
+
+2012-09-09  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (read_source): init() function initialize all
+	values, like DIM,LDIM,NREAC etc.
+
+2012-09-07  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (read_ode): Langeven flag and
+	complex method are possible to set up from within the .ode file.
+
+2012-09-05  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (main_interp): Multiple operations by
+	single command. For example, 'n tt' will set up total time of
+	integration and 'f d' command will set up new name for the data
+	file. Actually, main_interp(...) combines consecutive commands
+	into a single one.
+	(numerics_interp): no longer accepts additional argument of
+	pointer to struct num. No need in this, all variables are global
+	in init.h.
+	(numerics_interp): Complete new design of menus, provided with the
+	depth_level, determining at what menu and command level the
+	program is. This provides extensive multiple operations commands
+	in single command. This is totally done for numerics menu. Other
+	menus are just waiting.
+
+2012-07-03  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (process_odefile): print jacobian only when
+	jac_flag is TRUE.
+
+	* src/integrator.c (run): Additional fclose(...) caused memory
+	violation. Fixed.
+
+	* src/solver.c (ss_stab): Completed analysis of the steady state
+	stability by computation of eigenvalues.
+
+2012-06-25  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/solver.c (ss_stab): Stability analysis of the steady states
+	by eigenvalues computation.
+
+2012-06-15  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (show_initials): New show_initials
+	function, taking as many init conditions as wanted.
+	(main_interp): New call to the initial condition function: it
+	takes all init. conditions and start simulation, for each
+	init. cond. new data file is created, which is <basename>-<i>, where
+	<i> is the number of init. condition and <basename> is the
+	`data_name' string, used as a basename. Not enough specified
+	init. points are compensated with zeros.
+
+2012-06-14  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Preliminary added additional loop over
+	number of runs for the deterministic methods. This is needed for
+	Langevin.
+
+2012-06-03  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (lyap_interp): realloc problems, changed
+	to malloc.
+
+	* src/solver.c (ss_stab): GSL eigensystems tools are implemented.
+
+2012-06-02  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/singularity.c (multiroot_find): Reports about stability. Not
+	reliable yet, see below notes about ss_stab(...). it is not still
+	complete.
+
+	* src/solver.c (ss_stab): Not finished yet. Computes the Jacobian
+	at the steady state. What is next?
+
+	* src/ode.c (jac): Jacobian numerical computation if
+	jac_flag=0. Based on five points stencil computation of
+	derivatives. Step is taken from mynum.step.
+
+	* src/read_config.c (read_conf): auxillary entities names are
+	allocated now differently. Also affected is read_ode.c/gen_conf
+	function.
+
+2012-06-01  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/ode.c (jac): If jac_flag is true, then call jacobian(...),
+	otherwise compute derivatives numerically.
+
+	* src/read_ode.c (read_source): jacobian statements. Several
+	checks for incomplete jacobian statements specified. Jacobian
+	flag (jac_flag) added (global in init.h), determining if user has
+	specified the jacobian.
+
+2012-05-30  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (read_source): realloc() problems. Actual
+	var_name[i] and odestr[i] do not need realloc, the malloc is
+	better and sufficient.
+
+	* src/read_config.c (read_conf): method allocation(in
+	read_ode.c/gen_conf and reading.
+
+	* src/din_main.c (extr_base): additional argument to the function
+	specifying outcoming string.
+	(extr_base): Fatal error: did not put trailing zero to basename
+	string when copying. Fixed. Now use strncpy, but own code is
+	provided as well.
+
+	* src/din_main.c (app_ext): additional argument to the function
+	specifying outcoming string.
+
+2012-05-29  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (read_menu): New input argument reading
+	system. Uses MAX_N_ARG and MAX_ARG_LEN global variables defined in
+	init.h. If user input exceeds the MAX_N_ARG the error message is
+	displayed and the program takes only first MAX_N_ARG
+	arguments. For the rest of the arguments the behavior is undefined.
+
+2012-05-05  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/file.c (convert_data_file): converter modification in case
+	of complex method: first deterministic data set is converted
+	without a number appended(not a stochastic realization).
+	(convert_data_file): minor changes to converter
+
+2012-05-04  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/file.c (convert_data_file): New file converter: single data
+	set as well as multiple data sets to multiple .csv (default) file.
+
+	* src/input_interpreter.c (file_interp): file converter + new data
+	file name
+
+2012-04-29  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Removed period notification at the end
+	of simulations
+
+	* src/input_interpreter.c (parameters): added memset(buf...) to
+	erase previous data in buf and buf2
+
+2012-04-28  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): New complex method approach
+
+2012-04-09  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Single run function including the
+	Gillespie procedure.
+
+	* src/input_interpreter.c (read_menu): Menu reading function takes
+	additional argument of num of arguments read to erase the memory
+	from the old calls to the function.
+
+2012-03-22  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (isVar): Accepts size argument to check the size
+	of var_list. It is needed if one applies process_odestr(...) to,
+	e.g. functions' right hand sides, where the list of search for the
+	variables is not "global" var list, but list of arguments of the function.
+	(process_odestr): Accepts size argument for the same reason as above.
+	REMARKS: If someone at any time decides to include variable
+	`t'(time) to the system (regardless if any such a system exists)
+	then DIM argument for the `size' parameter must be at least
+	changed to (DIM+1)
+
+2012-03-21  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/main.c (max_min_x): Fatal error in computing start and stop
+	points! Now fixed. Periods are determined correct by peak method.
+
+2012-01-07  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Gillespie algorithm full implementation
+	is done.
+
+2012-01-06  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/init.c (init): Some dynamically allocated arrays added.
+
+	* src/read_config.c (read_conf): Binary configuration file .bcf,
+	no ASCII config file is support from now on.
+
+2012-01-04  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (gen_conf): First implementaion(testing) of the
+	binary configuration file
+
+2012-01-02  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/init.c (init): dynamic allocation of memory for variables
+	`y',`ksi',`pr'.
+

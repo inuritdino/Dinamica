@@ -1,0 +1,308 @@
+2009-12-30  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Integrator structure simplified. More
+	readable. 
+
+	* src/cross.c (peak_def): Resolved problem: integrator stops when
+	reaches max number of intersec or peaks(depends on period
+	method). This caused early stop when on SS regime, because peaks
+	are defined there as well. Now fixed. No early integrator stop
+	when on SS regime. This also involved files integrator.c,
+	trajectory.c, init.h.
+
+2009-12-20  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/singularity.c (multiroot_find): New random seed formulae.
+
+	* src/input_interpreter.c (rand_interp): Slightly different
+	formulae for creating seed for random generator. Hope it will help
+	to overcome the same seed when one starts generator sequentially.
+	(rand_interp): New random seed formulae.
+
+	* src/singularity.c (multiroot_find): Seed and generator type in
+	singularity menu can be changed now.
+
+2009-12-05  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (sing_interp): Singularity menu. Added
+	technical parameters to menu. They may be changed now.
+
+2009-11-28  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (sing_interp): `show' command for
+	singularity menu.
+
+2009-11-27  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/singularity.c (multiroot_find): Printig solution to stdout
+	non only to the file. Fclose of stream added(is crucial for
+	writing data).
+
+	* src/input_interpreter.c (sing_interp): file name input:
+	allocating memory for char* pointer is done via calloc instead of malloc
+
+2009-11-25  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (numerics_interp): No warning message in
+	numerics menu in case of write step ==0, when computed amount of
+	points(in run-kut integrator) are more than global buffer.
+
+2009-11-18  Elias Potapov  <elias.potapov@gmail.com>
+
+	***********************Version 0.2.1 RELEASE**********************
+	
+	* src/input_interpreter.c (sing_interp): Now dinamica is able to
+	find roots(steady state solutions of the system of ODEs).
+
+	* src/singularity.c (func_multiroot): Added new file and functions
+	for root finding.
+	(multiroot_find): Basic algorithm for finding roots established.
+
+2009-11-01  Elias Potapov  <elias.potapov@gmail.com>
+
+	***********************Version 0.2 RELEASE************************
+	
+	* src/init.h (MAX_N_ISEC): Discovered memory conflicts with too
+	big MAX_N_ISEC and MAX_N_PEAKS values. Function traj() doesnt want
+	to work. ALL should be changed from static allocation to dynamic
+	memory allocation(see TODO).
+
+	* src/input_interpreter.c (numerics_interp): write step can be
+	equal to zero, in such a way there is no writing output to storage
+	arrays, but first(initial) point. This is another way to overcome
+	storage array problem.
+
+2009-10-31  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/init.c (init): Config file reading with error open
+	handling.
+
+2009-10-28  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/* (*): Added a great opportunity to compute period consequent map and
+	periods histogram. This helps to analyze complex trajectory with
+	many periods as we encountered in Repressilator(A) model.
+
+	* src/submenu.c (*): This file added for the
+	first time.
+
+2009-09-12  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/main.c (copyleft): Added 2009 year to copyright.
+
+2009-09-04  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/read_config.c (buf_check): Replaced global looping vars(i,j)
+	with local one, defined inside the function---lp1 and lp2.
+
+	* src/input_interpreter.c (parameters): Added checking for
+	character input for par value(returning correspond. error).
+	Par name now case sensitive.
+	Added buf_check there, instead of direct checking.
+
+2009-08-19  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (errors_interp): Completed ERRORS menu.
+
+2009-08-18  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (parameters): Some additional changes in
+	parameters reading from menu. More desired behaviour and errors
+	handling. 
+
+2009-08-15  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (errors_interp): Added ERRORS menu to
+	MAIN one. All errors listed there and may be changed there.
+
+2009-08-14  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (traj): Added zeroing regime_ratio at each new
+	invocation of traj().
+
+2009-08-07  Elias Potapov  <elias.potapov@gmail.com>
+
+	*****************VER 0.1.1 RELEASE*******************
+	
+	* src/read_config.c (read_config): Moer extensive read of config
+	file var section.
+	(read_config): Comments support in config file.
+
+2009-08-05  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/read_config.c (read_config): More extensive read of config
+	file par section.
+
+2009-08-04  Elias Potapov  <elias.potapov@gmail.com>
+
+	* Makefile (.PHONY): Upgraded Makefile.
+	*****************VER 0.1 RELEASE******************
+
+2009-08-02  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (traj): Added regime = NULL and reg[i] = NULL,
+	allocating (null) solution before any new run of traj().
+
+	* src/cross.c (cross): Not correcto computing Poincare sections' average.
+
+2009-08-01  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Leaved sole function run(), added
+	parameters to it. Now it is no run_trans() and run_write() functions.
+
+	* src/cross.c (intersec): Changed func(...) with func_odeiv().
+
+	* src/solver.c (solver): Removed func(...). Using func_odeiv() instead.
+
+	* src/integrator.c (run): Completely removed func(...) from this file.
+	
+
+	* src/cross.c: Removed first occurence of func(...), changed it
+	for func_odeiv in peak_def(). Added pointer to function as a
+	paramter to pead_def(); removed (double f[]) from there. It is the
+	first step, next will be remove func() all over the programm.
+
+2009-07-31  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/init.c (init): Removed init_after_conf() no need in it.
+
+	* src/ode.c: Since this time, src/ode.c is the file for defining
+	ODE system to solve.
+
+2009-07-30  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (cont_interp): Some cosmetics to
+	continue menu.
+
+	* src/init.c (init): Moved cont_init() and rand_init() after the
+	whole config file is read.
+
+	* src/input_interpreter.c (cont_interp): Added HSS and IHSS as
+	solution to track.
+
+	* src/trajectory.c (traj): Moved out any memory allocations for
+	*regime and *reg[i]. Because I do its contents constant
+	string(like PANTI or PIN or IHLC) and if it is NULL I do check for it.
+
+	* src/input_interpreter.c (rand_interp): Changes in all
+	menu_interpreter functions. Wrong command prints the message "No
+	such command" for each menu. Enter hit doesn't count for wrong
+	command, instead new prompt printed again silently.
+
+	* src/main.c (copyleft): Copylefted the program...with GNU GPL.
+
+	* src/init.h: init_command_line() prototyping was incorrect. 
+
+2009-07-29  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/read_config.c (read_config): Did the same. See below for
+	input_interpreter.c file.
+
+	* src/input_interpreter.c (numerics_interp): Change comparison
+	section for "run-kut4" string. It is now using strcasecmp()
+	function, not simply string1==string2.
+
+	*** SINCE THIS TIME I keep all *.c and *.h files in src/
+	directory. ***
+
+2009-07-27  Elias Potapov  <elias.potapov@gmail.com>
+
+	* input_interpreter.c (rand_interp): Some attributes to out file
+	for report of desired solution(rnd_out)---how many points got
+	desired solution and total attempts. Removed 'break' statement
+	if max-min is equal to zero, for getting SS solutions in count.
+
+2009-07-26  Elias Potapov  <elias.potapov@gmail.com>
+
+	* read_config.c (read_config): Checking for rnd_solution
+	item. There was a reason for crash before when memory allocation
+	for rnd_solution was in random_init(). See also comment in
+	read_config in rndsol item.
+	(buf_check): Now spaces, tabs are allowed when writing config
+	file. Moreover they are allowed even between characters of each
+	single word. For example, 'r n d so l' becomes 'rndsol', numbers
+	like '7 0 9' ---> '709' and so forth.
+
+	* random.c (random_init): Added memory allocation to rnd_solution,
+	removed it from  previous place in init.c(init()).
+
+2009-07-23  Elias Potapov  <elias.potapov@gmail.com>
+
+	* trajectory.c (subper): Initialize n_subperiods,spectrum_per
+	elements to zero and per_ratio elements to unity(not convergence)
+	BEFORE any new run.
+	(traj): If any of regime is PANTIALL then total REGIME is the
+	same,but if any regime is IHLC then total REGIME is the IHLC(IHLC
+	dominance).
+	
+	* cross.c (intersec): Initialize t_peak,x_peak,tper to 0.0(zero)
+	before any new run.
+
+	* input_interpreter.c (rand_interp): Menu item for selecting
+	desired solution in RANDOM menu.
+	(rand_interp): Convert string of desired solution (in
+	RANDOM/SOLUTION) menu item to upper case if any of entered
+	characters is lower case.
+
+	* trajectory.c (traj): Added "continue" statement to Reporting of
+	various regimes. More clear in determining specific regime.
+	(traj): If any of trajectory is IHLC then total REGIME is IHLC.
+
+2009-07-17  Elias Potapov  <elias.potapov@gmail.com>
+
+	* init.c (init): Memory allocation for rnd_solution.
+
+	* read_config.c (read_config): Added checking for fixed solution
+	to watch in random initial points generating mechanism.
+
+	* input_interpreter.c (rand_interp): char *rnd_solution instead of
+	simple char *word for solution which initial points wanted to be
+	written to "rand" file. Of course added declaration to init.h.
+
+2009-07-16  Elias Potapov  <elias.potapov@gmail.com>
+
+	* input_interpreter.c (rand_interp): More correct random initial
+	points. Changed from (max-min)*u to (max-min)*u+min.
+
+2009-07-07  Elias Potapov  <elias.potapov@gmail.com>
+
+	* init.h: Removed array of pointer to vars(x) and RHS(f) all over
+	the program.
+	   Removed array pointer for max and min of vars(p_max_x
+	and p_min_x). Everywhere they occur in rest of the program.
+	   Removed array of pointers for Poincare level(p_x_cross). 
+	   Removed array of pointers for p_n_isec,p_n_peaks,p_n_subperiods.
+
+2009-07-06  Elias Potapov  <elias.potapov@gmail.com>
+
+	* read_config.c (read_config): Made changed to read vars and pars
+	initial values  and their names from config file. Needed to do
+	changes in declarations of par_name and var_name in init.h
+
+2009-07-05  Elias Potapov  <elias.potapov@gmail.com>
+
+	* trajectory.c (traj): Added new names for regimes. PIN---Periodic
+	INphase. PANTI---Periodic ANTIphase. PANTIALL---Periodic ANTIphase
+	for ALL vars. IHSS,HSS,IHLC leaved unchanged.
+	(traj): Changed some terminal output information.
+	(traj): Changed 'cnt' with 'cmppairs' and 'MAX_N_CNT' with
+	'MAX_N_CMPPAIRS'. That should be clearer than it was. 
+
+2009-07-04  Elias Potapov  <elias.potapov@gmail.com>
+
+	* trajectory.c (traj): ERRORS FORMING. Serious mistake in
+	algorithm. Forming 'cnt'(actually, number of compared
+	variables. Cnts were not correctly formed. They were formed both
+	for isec and peak method, not checking for what period determining
+	method is. As a result, not correct formation of
+	count[k]s... Added if(per_method == ..) for ERRORS FORMATION.
+	
+
+	* init.h: Added a functions prototypes. No comments.  Created TAGS
+	file. All functions can be found there.
+	
+
+2009-07-04  Elias Potapov  <elias.potapoc@gmail.com>
+
+	START LOGGING: Actually, started to write log in ChangeLog for
+	"din'amica" project today!

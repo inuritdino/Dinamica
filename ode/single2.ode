@@ -1,0 +1,14 @@
+# Reaction system describing the behaviour of a single gene and mRNA
+dPro/dt = 0
+dM/dt = ka*Pro - d*M
+
+init Pro=1,M=0
+
+par ka=1,d=0.5
+
+#Stochastic discrete system
+g:ka*Pro;+M
+g:d*M;-M
+
+@total=100
+done

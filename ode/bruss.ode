@@ -1,0 +1,20 @@
+# bruss.ode
+# the brusselator
+# showing capabilities of writing functions
+
+%system 1
+
+u'=a-(b+1)*u+v*f(u)
+dv/dt=b*u-v*f(u)
+f(x)=x^2
+
+#jac u = -(b+1)+2*v*u,u^2
+#jac v = b-2*v*u, -u^2
+
+lang u=0.1,v=0.01
+
+init u=b,v=1
+par b=3,a=1
+
+@method=eu,lf=0,gf=1,total=100,dt=0.002
+done

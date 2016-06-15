@@ -1,0 +1,52 @@
+# One Repressilator (Elowitz and Leibler, Nature 403, 335, 2000).
+# Full model(with mRNA).
+# Set of the chemical reactions:
+#(* means that the reactant is not consumed in the reaction)
+#1. *f1(hill) -alpha-> a1 
+#2. *d1(hill) -alpha-> b1
+#3. *e1(hill) -alpha-> c1
+#4. a1 -d->
+#5. b1 -d->
+#6. c1 -d->
+#7. *a1 -g-> d1
+#8. *b1 -g-> e1
+#9. *c1 -g-> f1
+#10. d1 -dp->
+#11. e1 -dp->
+#12. f1 -dp->
+
+init a1=1,b1=0,c1=0
+init d1=0,e1=0,f1=0
+
+#Now, we define deterministic model with the same parameter set
+a1'=-d*a1+(alpha*V)*(Kh*V)^n/((Kh*V)^n+f1^n)
+b1'=-d*b1+(alpha*V)*(Kh*V)^n/((Kh*V)^n+d1^n)
+c1'=-d*c1+(alpha*V)*(Kh*V)^n/((Kh*V)^n+e1^n)
+d1'=g*a1-dp*d1
+e1'=g*b1-dp*e1
+f1'=g*c1-dp*f1
+
+par alpha=0.001,n=2.6
+par Kh=20
+par d=0.0033
+par g=0.1,dp=0.00033
+par V=1
+
+#Stochastic model
+g:(alpha*V)*(Kh*V)^n/((Kh*V)^n+f1^n);a1
+g:(alpha*V)*(Kh*V)^n/((Kh*V)^n+d1^n);b1
+g:(alpha*V)*(Kh*V)^n/((Kh*V)^n+e1^n);c1
+g:d*a1;-a1
+g:d*b1;-b1
+g:d*c1;-c1
+g:g*a1;d1
+g:g*b1;e1
+g:g*c1;f1
+g:dp*d1;-d1
+g:dp*e1;-e1
+g:dp*f1;-f1
+
+
+@method=complex,method2=rkf45,lf=0,total=300000,sf=50
+@yax=a1
+done

@@ -1,0 +1,10 @@
+#bindir = $(prefix)/bin
+#AM_CPPFLAGS = -I/opt/local/include
+#bin_PROGRAMS = dinamica
+#dinamica_SOURCES = src/din_main.c src/read_ode.c src/din.h
+bin_PROGRAMS = dinamica
+dinamica_SOURCES = din_main.c read_ode.c din.h
+dinamica_LDADD = libdin.a
+lib_LIBRARIES = libdin.a
+libdin_a_SOURCES = main.c solver.c input_interpreter.c cross.c integrator.c init.c trajectory.c continue.c random.c read_config.c submenu.c singularity.c ode.c lyapunov.c file.c graph.c gnuplot_i.c continue.h errors.h gnuplot_i.h graph.h init.h lyapunov.h random.h singularity.h thistogram.h trajectory.h
+#libdin_a_SOURCES = src/main.c src/solver.c src/input_interpreter.c src/cross.c src/integrator.c src/init.c src/trajectory.c src/continue.c src/random.c src/read_config.c src/submenu.c src/singularity.c src/ode.c src/lyapunov.c src/file.c src/graph.c src/gnuplot_i.c src/continue.h src/errors.h src/gnuplot_i.h src/graph.h src/init.h src/lyapunov.h src/random.h src/singularity.h src/thistogram.h src/trajectory.h

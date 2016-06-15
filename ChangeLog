@@ -1,0 +1,285 @@
+2014-07-01  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/random.c (rnd_init_cond_run): Report translation to the
+	output of random throwing.
+
+2014-06-30  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/random.h: Only initial condition to write to the
+	output. Flag for this.
+
+2014-06-25  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (write_data_file): Do not proceed writing to
+	the file, when NaN is calculated.
+
+2014-06-12  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.h: T-system own tolerance values: absolute and
+	relative.
+
+	* src/continue.c (run_extend_rnd): Continue by the parameter along
+	with random throwing.
+
+	* src/trajectory.c (statND_to_file): Fixed the problem with the
+	array of regStat structs.
+	(perdcty_in_stat_array): Sort by all possible unique periodicities
+	for all regStat structs.
+
+2014-06-06  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.h (struct): Distinct separation between SS and OS
+	regimes without determination of SS through OS.
+
+	* src/trajectory.c (statND_to_file): General statistics for
+	multiple regStat values. Classification by all criteria.
+
+2014-06-04  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (regime_stat): Output file to report and
+	statistics type to report. First type added.
+	(ss_by_frame): New function determining SS by the fact of equal
+	values in the trajectory for over than 50% of the time.
+
+2014-06-03  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (regime_stat): Periodicity report in the regime
+	statistics.
+	(free_regime_stat): Special free-ing of the regime stat structure
+	regStat.
+
+	* src/random.c (rnd_init_cond_run): A single function performing
+	random initial conditions throwing.
+
+2014-05-30  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/init.h (FRAME_LINE_LEN): Frame constants are in the globale
+	init.h.
+
+	* src/cross.c (write_autocorr_file): Autocorrelation handling
+	functions in cross.c.
+
+	* src/file.c (load_frame): Frame handling functions in file.c.
+
+2014-05-29  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (mol_dist): Only the first frame is analyzed
+	for molecular species function.
+	(mol_dist): Correct handling of the variable for the distribution
+	calculation.
+
+	* src/cross.c (peak_ampl): New amplitude calculating
+	function. Jumps over the peaks and calculates the min of preceding
+	and next troughs, then amplitude is the result of subtraction from
+	peak value and the min value.
+
+	* src/input_interpreter.c (periods_interp): Number of bins of the
+	amplitude histogram can be specified from the command line.
+
+	* src/cross.c (peak_ampl): Simple function to calculate amplitudes
+	from the peak information (trajPeak object).
+	(ampl_multi_frames): Calculate amplitudes from multiple
+	frames. For stochastic purposes.
+
+	* src/input_interpreter.c (periods_interp): Amplitude calculation
+	in the Periods Menu restored.
+
+	* src/trajectory.c (mol_dist): Bug is detected in the
+	function. Should be fixed in the future. Only last imported frame
+	is analyzed and NOT a number of them.
+
+2014-04-24  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.h (struct): Indicator of the ascending/descending
+	slope.
+
+2014-04-21  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_nd): Period for each subsystem
+	printed. All phase shifts are reported.
+
+2014-04-16  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (rand_interp): Constraints can be set
+	from one-line command.
+	(load_initials): Take the ceiling instead of round for the
+	discrete initial conditions.
+
+2014-04-15  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (regime_stat): The In-/Out-of-phase statistic
+	is included.
+
+2014-04-14  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (load_initials): Make the round
+	operation when reading the initial conditions for the discrete system.
+
+	* src/din_main.c (main): Get the $PWD system variable to resolve
+	the current directory name instead of the previous "./" identificator.
+
+2014-03-30  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (report_translate): No phase and no homogeneity
+	reports are shown in case of LDIM=1.
+
+2014-03-29  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_nd): Reformulation of the ND T-system.
+
+2014-03-28  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/din_main.c (main): Deleting unnecessary files: make sure the
+	files exist.
+
+	* src/input_interpreter.c (load_initials): Copy the initial
+	conditions to the correspong discrete array of initial
+	conditions.
+
+2014-03-27  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/init.c (din_close): More freeing at the end.
+
+	* src/lyapunov.c (lyap_free): Freeing Lyapunov entities.
+
+	* src/input_interpreter.c (rand_interp): Parameters and variables
+	in the header of the random throwing output file.
+
+2014-03-26  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (parse_command_line): The new command
+	line parsing system which includes the possibility of reading the
+	commands from the script file. The latter can be specified to the
+	program using -f flag.
+	(rand_interp): Empty args for the random throwing
+	constraints. Plus, no limitation for DIM number of iterations:
+	given the empty args there can be more than DIM iterations.
+
+2014-03-14  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (find_lag_nd): The new way of determining the
+	sub-system lag to check the out-of-phase regimes. This way also
+	includes the definition of the homogeneous vs. in-homogeneous by
+	the nature of it.
+
+2014-03-11  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (check_slope_ampl): No boom appeared treatment
+	in the slope amplitudes checking. Very important issue left unseen
+	in the code. Now fixed.
+
+	* src/read_ode.c (read_source): The new possibility to define
+	number of physical systems in .ode files: "%system"
+	directive. This will deprecate in near future old "#system"
+	directive, which is kept for backward compatibility.
+	(read_source): The same as above for "%include"
+	directive. "#include" is to be deprecated in near future.
+
+2014-02-20  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (read_next_command_wrapper): New wrapper
+	function starts the new shorter way of reading the user-input.
+
+2014-02-17  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (rand_interp): Random throwing for the
+	stochastic system.
+
+	* src/trajectory.c (get_dynamics_1d): Redefined the attractor
+	approaching rate, that is, now, showing how much (in %) of the
+	last slope amplitude has changed over time from slope to
+	slope. Defined by analogy of the derivative of a function.
+
+2014-02-13  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_1d): Trying to avoid returning
+	meaningless NULL and save the dynamics regime checking in case of
+	sl_ampl_size == 1.
+
+	* src/cross.c (compute_period): Appending mode for writing the
+	autocorrelation function to the file.
+
+	* src/input_interpreter.c (periods_interp): Plotting the
+	autocorrelation function.
+
+	* src/trajectory.c (get_dynamics_1d): Simple rules to overcome SS
+	(or not enough points) situation when all the values in the data
+	file are equal to each other and no peak/trough as well as slope
+	information can be computed.
+
+2014-02-11  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_1d): The iterative check of the
+	slope amplitudes to support OS lag value.
+
+2014-02-10  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_1d): Attractor approaching rate
+	-- how fast you need to reach the attractor.
+
+2014-02-06  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (get_dynamics_1d): Define the descending rate
+	before any slope comparisons. This will indicate the descending of
+	the slope amplitudes. NOTE: negative values will show the
+	ascending, which is checked in the OS regime.
+
+	* src/read_ode.c (process_odefile): Minor bugs about NLANG value
+	in the processing to .c file.
+
+2014-02-04  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (read_source): The new format for the langevin
+	amendments: "lang x=0.1,y=0.4,z=1.3" .
+
+2014-01-31  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/cross.c (crossing): The new way to allocate tisec in the
+	function. It gets allocated from within the function and then gets
+	returned. Additionally, the memory gets allocated by the big
+	chunks, whose size is determined via the constant TISEC_CHUNK_SIZE
+	[defined in the same file]. This avoids too many calls to the
+	realloc function, which is advisable to avoid.
+
+2014-01-30  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/integrator.c (analyze_traj): The new output extension. No
+	more information of the cross level in the output file name. The
+	output extension is ".do" = (d)inamica (o)utput. The cross level
+	information is written in the file itself anyway.
+	(analyze_traj): Single .do output for all cross levels (up to
+	three). The output is just appended to the file.
+
+2014-01-29  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (main_interp): Minor bugs with memory
+	allocation under the "Calculate" menu of the Main Menu.
+
+2014-01-23  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (rand_interp): Random menu receives the
+	new command line treatment procedures. See read_command_line and
+	read_next_command functions. Additionally, this menu receives the
+	functionality to constrain the random throwing intervals for the
+	specific variables set by the user.
+	(graphics_interp): Free-ing symbuf variable under all *_interp
+	function before every return statement withing those functions. Or
+	as a partial solution, remove all return 0; statement under all
+	else if conditionals in those menus and replace all of them with
+	one single return 0; at the end of the functions. Except for the
+	return 1000; statements indicating the exit from the menus.
+	(rand_interp): Menu for specifying the constraints for the random
+	throwing.
+
+	* src/random.c (random_free): First, "freeing" function. For the
+	Random stuff. It is invoked in the din_close() function closing
+	the program.
+	(random_init): New boundaries for the random throwing for each
+	variable. Which variable is limited by the special constraints is
+	determined in the logical array.
+
+2014-01-21  Potapov Ilya  <elias.potapov@gmail.com>
+
+	* Some declarations missing fixed. Plus, some minor mistypos in
+	the code as well as some headers were undefined. New compiler, when
+	moved to the new OS, has complained about all of this.

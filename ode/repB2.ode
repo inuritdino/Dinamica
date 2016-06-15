@@ -1,0 +1,35 @@
+# Two Repressilators system with phase-repulsive interaction
+# Dimensionless model
+
+%system 2
+
+init a1=1,b1=0,c1=0,s1=0
+init d1=0,e1=0,f1=0
+init a2=3,b2=0,c2=0,s2=0
+init d2=0,e2=0,f2=0
+
+# Rep 1
+a1'=-a1+alpha/(1+f1^n)
+b1'=-b1+alpha/(1+d1^n)
+c1'=-c1+alpha/(1+e1^n)+kap*s1/(1+s1)
+d1'=betaa*(a1-d1)
+e1'=betab*(b1-e1)
+f1'=betac*(c1-f1)
+s1'=ks1*e1-ks0*s1-eta*(s1-q*(s1+s2)/2)
+
+# Rep 2
+a2'=-a2+alpha/(1+f2^n)
+b2'=-b2+alpha/(1+d2^n)
+c2'=-c2+alpha/(1+e2^n)+kap*s2/(1+s2)
+d2'=betaa*(a2-d2)
+e2'=betab*(b2-e2)
+f2'=betac*(c2-f2)
+s2'=ks1*e2-ks0*s2-eta*(s2-q*(s1+s2)/2)
+
+par alpha=216,n=2.6,kap=25
+par ks1=0.01,eta=2,q=0.1
+par ks0=1.0
+par betaa=0.85,betab=0.1,betac=0.1
+
+@method=rkf45,lf=0,total=500,trans=4000
+done

@@ -1,0 +1,119 @@
+# DINAMICA is software for not only solving systems of nonlinear Ordinary
+# Differential Equations, but for finding various distinctive functioning regimes of
+# nonlinear systems. These regimes are steady states and periodic regimes,
+# homogeneous and inhomogeneous states, inphase and antiphase oscillations and much
+# more.  Determining of those regimes based only on numerical entities not on
+# visualized data. Thus no graphics environment is needed(such as X11). The program
+# uses various numerical algorithms from GNU Scientific Library(GSL). Additionaly,
+# there are many stochastic procedures in the program ranging from Stochastic
+# Simulation Algorithm (Gillespie) to the Langevin equation. Stochastic routines are
+# also used in various numerical techniques.
+
+#***************************************************************************************
+# Copyright 2008,2009,2010,2011,2012,2013 Elias Potapov. 
+# Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+# 2008, 2009, 2010, 2011 The GSL Team. 
+
+#***************************************************************************************
+# This file is part of DINAMICA. 
+
+# DINAMICA is free software: you can redistribute it and/or modify 
+# it under the terms of the GNU General Public License as published by 
+# the Free Software Foundation, either version 3 of the License, or 
+# (at your option) any later version. 
+
+# DINAMICA is distributed in the hope that it will be useful, 
+# but WITHOUT ANY WARRANTY; without even the implied warranty of 
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+# GNU General Public License for more details. 
+
+# You should have received a copy of the GNU General Public License 
+# along with DINAMICA.  If not, see <http://www.gnu.org/licenses/>. 
+#**************************************************************************************
+#**************************************************************************************
+# Original author is Elias Potapov <elias.potapov@gmail.com>
+# Lomonosov Moscow State University, Biophysics Dep..
+# Tampere University of Technology, Dep. of Signal Processing
+# Moscow, Russia / Tampere, Finland
+#**************************************************************************************
+NAME= dinamica
+#We have alpha version
+VER=0
+SUBVER=.9
+CC= gcc
+LIBS= -lgsl -lgslcblas -lm
+CFLAGS= -g -Wall
+LDFLAGS= -L/opt/local/lib
+CPPFLAGS= -I/opt/local/include
+CASFLAGS= -g -c
+CSOFLAGS= -c -fPIC
+DINOBJ= lib/din/din_main.o lib/din/read_ode.o
+LIBOBJ= lib/main.o lib/solver.o lib/input_interpreter.o lib/cross.o	\
+     lib/integrator.o lib/init.o lib/trajectory.o lib/continue.o	\
+     lib/random.o lib/read_config.o lib/submenu.o lib/singularity.o	\
+     lib/ode.o lib/lyapunov.o lib/file.o lib/graph.o lib/gnuplot_i.o
+HEADERS= src/init.h src/din.h src/errors.h src/continue.h src/random.h	\
+	 src/thistogram.h src/singularity.h src/trajectory.h \
+	 src/lyapunov.h src/graph.h src/gnuplot_i.h
+ODES= ode/bruss.ode ode/bruss2.ode ode/lorenz.ode ode/repGilODE.ode ode/single.ode \
+      ode/ts.ode
+RM= rm -f
+CP= cp
+TAR= tar
+TARFLAGS= -cv
+GZ= gzip
+LIBDIR= lib/
+DINLIBDIR= lib/din/
+SRCDIR= src/
+INSTDIR= /usr/local/bin/
+AR= ar
+ARFLAGS= rcs
+ALIBNAME= libdin.a
+SOLIBNAME= libdin.so
+LIBNAME= $(ALIBNAME)
+LIBINSTDIR= /usr/local/lib/
+
+#Compiling DINAMICA
+$(NAME): $(DINOBJ) $(ALIBNAME)
+	@echo "Compiling DINAMICA ..."
+	$(CC) $(CFLAGS) $(LDFLAGS) $(CPPFLAGS) $(DINOBJ) -o $(NAME) $(LIBS)
+$(DINLIBDIR)%.o: $(SRCDIR)%.c $(HEADERS)
+	$(CC) $(CASFLAGS) $(CPPFLAGS) $< -o $@
+######################
+#Creating static library
+$(ALIBNAME): $(LIBOBJ)
+	@echo "Creating DINAMICA library (libdin.a)..."
+	$(AR) $(ARFLAGS) $(ALIBNAME).$(VER)$(SUBVER) $(LIBOBJ)
+	ln -fs $(ALIBNAME).$(VER)$(SUBVER) $(ALIBNAME)
+$(LIBDIR)%.o: $(SRCDIR)%.c $(HEADERS)
+	$(CC) $(CASFLAGS) $(CPPFLAGS) $< -o $@
+######################
+#Creating shared library
+#$(SOLIBNAME): $(LIBOBJ)
+#	@echo "Creating DINAMICA library (libdin.so)"
+#	$(CC) -shared -Wl,libdin.so -o $(SOLIBNAME).$(VER)$(SUBVER) $(LIBOBJ)
+#	ln -fs $(SOLIBNAME).$(VER)$(SUBVER) $(SOLIBNAME)
+#$(LIBDIR)%.o: $(SRCDIR)%.c $(HEADERS)
+#	$(CC) $(CSOFLAGS) $(CPPFLAGS) $< -o $@
+#
+.PHONY: clean remove archive install
+remove:
+	@echo "Removing dinamica executable..."
+	$(RM) $(NAME)
+clean: 
+	@echo "Cleaning unnecessary files..."
+	$(RM) $(LIBOBJ) $(DINOBJ) $(SRCDIR)*~ $(LIBDIR)*~ $(DINLIBDIR)*~
+archive:
+	@echo "Cleaning unnecessary files..."
+	$(RM) $(LIBOBJ) $(DINOBJ) $(LIBDIR)*~ $(DINLIBDIR)*~
+	@echo "TARing files..."
+	$(TAR) $(TARFLAGS) -f $(NAME)$(VER)$(SUBVER).tar $(SRCDIR)*.c $(SRCDIR)*.h $(LIBDIR) $(ODES) Makefile ChangeLog TODO COPYING README
+	@echo "GZIPing files..."
+	$(GZ) $(NAME)$(VER)$(SUBVER).tar
+install:
+	@echo "Installing $(LIBNAME)..."
+	$(CP) $(LIBNAME).$(VER)$(SUBVER) $(LIBINSTDIR)
+	ln -fs $(LIBINSTDIR)$(LIBNAME).$(VER)$(SUBVER) $(LIBINSTDIR)$(LIBNAME)
+	@echo "Installing $(NAME)..."
+	$(CP) $(NAME) $(INSTDIR)
+

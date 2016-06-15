@@ -1,0 +1,153 @@
+2011-12-30  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c: Added the statements defining
+	the input of the discrete system(Gillespie).
+
+2011-12-28  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (read_source): fixed memory allocating bug for
+	initstr 
+
+2011-11-18  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/lyapunov.c (lyap_spec_cont): LCE spectrum continuation over
+	parameter algorithm
+
+2011-11-17  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/lyapunov.c (lyap_spec): Fixed main bug about Lyapunov
+	Exponents spectrum algorithm. (0.8.5 release)
+
+2011-11-14  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/lyapunov.c (lyap_spec): Lyapunov Exponents spectrum
+	algorithm from Wolf et al, 1985.
+
+	* src/din_main.c (app_ext): additional '\0' character for a new
+	output name. It was detected to be other symbols in the end
+	without ending '\0' char.
+
+	* src/ode.c (ode_lin): Linear ODEs.
+
+	* src/ode.c (jac): Jacobian.
+
+2011-11-03  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/solver.c (solver): Euler method is introduced.
+
+	* src/ode.c (jac): dfdx and dfdt hold the values of Jacobian and
+	2nd time derivatives in the core routines.
+
+	* src/din_main.c (main): Only compilation is possible with `-c'
+	flag to dinamica.
+
+	* src/read_ode.c (read_source): New syntax for defining the
+	Jacobian for the ODE system and second time derivative of
+	variables(which means we have not ODE system). But Jacobian is
+	still not supported by the core routines from the din library. It
+	waits its implementation.
+
+2011-11-01  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/lyapunov.c (lyap_cont): New algorithm computing the Main
+	Lyapunov Exponent when on of the system's parameter is
+	varied. Continuation along the parameter is done with a fixed step
+	size.
+
+2011-10-27  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/lyapunov.c (mle): Added is a new function mle(...) computing
+	the Main Lyapunov Exponent. The function is intended to study
+	chaos. Before use one needs to get the attractor with fixed step
+	integrator with write_step=1, then run mle(...) with defined
+	threshold and initial distances.
+	
+
+2011-02-17  Ilya Potapov  <elias.potapov@gmail.com>
+
+	Totally changed n_steps  to  write_count in cross, peak functions
+	for ability to use the write_step. It takes a lot of time to
+	compute Langevin stoch equations.
+
+	* src/main.c (max_min_x): Max and min computing: no comparing with
+	the fixed error, just more or less then specified time. Because of
+	write_count which writes not all points to storage arrays.
+
+	* src/read_ode.c (isVar): Minor fix of "Segmentation fault"
+	discovered for some systems. Now switched to using of DIM in
+	isVar() function.
+
+2011-01-10  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* Makefile: Ver 0.8.1a release. Langevin approach is now available
+	in the program. At this point it only accepts random generation
+	from gaussian distribution, so it is possible to add white noise
+	to the RHS.
+
+	* src/input_interpreter.c (numerics_interp): We have added the
+	buffer increment menu item. Buffer increment is number of points
+	to be stored by additional integration when storage array is full
+	and incrementing is required.
+
+	* src/ode.c (func_odeiv): Added new noisy terms to RHS. There are
+	amplitude coefficients in front of numbers from random
+	generator. By setting these conefficients to zero it is possible
+	to reduce noise effect or introduce noise only for several
+	variables. These conefficients are constants so we have additive
+	noise.
+
+	* src/random.c (generate_seed): Slight changes in random generator
+	seed creation: in now multiplies the seconds of computer's uptime
+	by 100. For ex.: 123.45 seconds of uptime => 12345 seed. This is
+	done for preventing the same seed for multiple runs in a second.
+
+2011-01-05  Ilya Potapov  <elias.potapov@gmail.com>
+
+        ********************** Ver 0.8.0a RELEASE **********************
+	SUMMARY: New extended ode file parser created.
+	****************************************************************
+	
+	* src/input_interpreter.c (rand_interp): Now it is possible to set
+	the seed for the random generator manually and automatically(from
+	system's uptime)
+
+	* src/random.c (random_d): More general function to obtain random
+	values.
+
+	* src/init.c (init): New initiation process: there is no dynamical
+	and statical initialization as we totally define DIM, LDIM and
+	PARDIM from within ode file. Also those values are not allowed to
+	be changed anymore.
+
+	* src/input_interpreter.c (rand_interp): New procedure for getting
+	the seed number for the random generator. The source of the seed
+	did not change. 
+
+	* src/integrator.c (run): Printing info is different for two types
+	of runs: transient and normal.
+
+2011-01-02  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/integrator.c (run): Auxillary and fixed entities are now
+	stored in the data file. NOTE: we do not use storage arrays for
+	those values.
+
+	* src/main.c (main): `-c' flag is still possible to pass to the
+	system executable to specify configuration file.
+
+	* src/read_config.c (set): AUXNUM and FNUM are now available
+	through configuration file.
+
+	* src/read_ode.c (read_source): Reading fixed entities. See XPPAUT
+	manual for details.
+
+	* src/din_main.c (main): Now system executable accepts
+	configuration file without `-c' flag in front of the file name.
+
+2011-01-01  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (process_odestr): fgets function changed to read
+	the correct number of characters.
+	(gen_conf): Added functionality to read auxillary entities from
+	.ode file.
+

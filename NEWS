@@ -1,0 +1,32 @@
+Ver 1.0, September 2014 
+- Major updates of the trajectory system (T-system).
+- Script language support: commands are supplied from a file.
+- Extended manual.
+- Multiple command line arguments, groupings.
+- Smarter and universal command line processing interface.
+
+Ver 0.11, February 2014
+- Keeping extending the trajectory system: regime checking first full version.
+- Extended support and the processing of the MA trajectories.
+- Random generation better handling, random menu updated.
+- Random throwing: specific variables constraints.
+- Menu functionality extended, e.g. command history.
+- Poincare method with several different section: more automatic.
+- File menu extended: load output files, output file extension is automatic.
+- Stochastic Ito Diff. Equations full support.
+- The official manual of Dinamica has started. See doc/ subfolder.
+
+Ver 0.10.1, April 2013
+- URL of the package added.
+- Version for gsl_odeiv2 support, in the more recent version of GSL library.
+
+Ver 0.10, March 2013
+- GNU Autotools are configured.
+- gsl_odeiv instead of gsl_odeiv2: for older GSL libraries compatibility.
+See ver. 0.10.1 for _odeiv2 support.
+- Parameter continuation menu extended.
+- Trajectory system is updated(but not complete yet). Seems working for 1D systems.
+- Moving Average (MA) trajectory calculation.
+
+Versions prior to 0.10 are not documented here. This file is maintained only from
+the version first appeared with the Autotools configuration, i.e. from Ver. 0.10.

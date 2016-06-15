@@ -1,0 +1,20 @@
+# Simple dimensionless Repressilator model
+#
+
+init a=1,b=0,c=0,d=0,e=0,f=0
+
+a' = alpha/(1+f^n) - a
+b' = alpha/(1+d^n) - b
+c' = alpha/(1+e^n) - c
+d' = beta*(a-d)
+e' = beta*(b-e)
+f' = beta*(c-f)
+
+lang e=0.1
+
+par alpha=40
+par beta=1,n=2.0
+
+@method=rkf45,lf=0,yax=e,dt=0.02
+
+done

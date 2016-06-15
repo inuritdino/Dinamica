@@ -1,0 +1,45 @@
+DINAMICA project. TODO list.
+
+* Matlab set of function for T-system. This will increase number of potential users.
+
+* T-system assistant: identifies major known problems and try to solve it without user-intervention.
+
+* T-system support of systems with different time scales: these produce the "true" slopes as
+  well as not "true" ones due to "fluctuations".
+
+* More universal, system-independent random number generator.
+
+*? Mean trajectory for stochastic simulations.
+
+*? Make transient period for the time series -- the initial time interval that is
+  skipped when processed.
+
+* Variability of the parameters: draw the parameter values from the distributions
+  modeling the external noise source.
+
+*? Systems Biology Markup Language (SBML) capability.
+
+* There is a need in script language that would interprete a series of commands plus
+  special structures like for and if statements. This is especially useful for
+  parameter space exploration. There is a basic parameter continuation tool, but it
+  is really primitive.
+
+* Delayed ODEs/SSA
+
+* Fast Fourier Transform of stochastic oscillations.
+
+* Clusterization. This program was not originally set for cluster
+analysis. The same way so far. This should be fixed.
+
+* Parameter continuation. Step size adaptive algorithm should
+developed or any existing library alogorithm should be used.
+
+* Make `one run' mode in the program. Dinamica is executed for once
+and fulfils one single task.
+
+* Add special functions recognition algorithm in the parser like cos,
+sin, tg, exp etc.
+
+* Make command line interpreter guess input from the user. By pressing
+Tab twice(like in shell) or while typing.
+

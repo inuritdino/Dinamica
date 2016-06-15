@@ -1,0 +1,116 @@
+2010-12-29  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (read_source): Reading function. Some unclear bug
+	is left: Dinamica does not allow the function with empty argument
+	list. 
+	(process_odefile): Functions reading from .ode file algorithm is
+	now complete. This allows user to put functions in the .ode
+	file. The definition of the function the same as in the .ode file
+	format of XPPAUT.
+
+2010-12-27  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/main.c: We use pointers for variables' names(**var_name)
+
+	* src/read_ode.c (read_source): Dinamica parser now is going to
+	understand function syntax. Each function defined by the user is
+	represented by the `struct func' C structure with the following
+	members: char *func_str; char *func_name; char
+	**arg_list. func_str --- is RHS of the function. func_name ---
+	name of the function(if you set f(x,y) it must be `f'). arg_list
+	--- is a list of arguments passed to the functions(if you set
+	g(u,v) there must be two strings: `u' and `v').
+
+2010-12-25  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/cross.c (peak): Check for non-physical peaks
+	computing. While on SS it was possible to compute peaks. Now
+	fixed. Copmuting peaks and cavities only if local
+	amplitude--amplitude between peak and corresponding cavity--- is
+	big enough. Use amplitude absolute error for comparison.
+
+	* src/main.c (max_min_x): Min and max values computing
+	improvement. Fixed minor bugs.
+
+2010-12-22  Ilya Potapov  <elias.potapov@gmail.com>
+
+	* src/cross.c (amplitude): New amplitudes computing function that
+	accepts also a time interval on which computation is made.
+
+	* src/main.c (max_min_x): New complex function to compute max and
+	min of the dynamical variables. The function accepts time interval
+	in which max and min should be computed.
+
+2010-11-08  Elias Potapov  <elias.potapov@gmail.com>
+
+	* : We start to use storage arrays totally. We get rid of inline
+	sections and peaks defining functions. Let's do that on storage of
+	the trajectory.
+
+2010-11-06  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/din_main.c (main): Added library path to the command that
+	executes compiling of ODE .c file which is generated from ODE .ode
+	file. 
+
+	* src/read_ode.c (read_source): Added new directive #system that
+	is a comment in XPPAUT but sensible in Dinamica. #system set local
+	dimension which is the number of coupled cells, oscillators,
+	switches and generally coupled systems.
+
+2010-10-20  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (read_source): Backward compatibility with old
+	styles names.
+
+2010-10-12  Elias Potapov  <elias.potapov@gmail.com>
+	******************************************************************
+	*******************DINAMICA 0.7.*a release************************ 
+	******************************************************************
+	
+	* src/*.c (): i,j,k,l,m working(looping) variables are NOT global
+	now, i.e. not defined in the init.h, but in the particular
+	functions.
+
+2010-10-11  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/din_main.c (main): This new main function which parses
+	command line argument and processes .ode source file, then
+	compiles generated .c source file against DINAMICA library.
+
+	* src/read_ode.c (read_source): Finally, we got arranged all
+	routines for ODE converter.
+
+2010-10-08  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/read_ode.c (read_source): New equation input method is
+	starting to be implemented: ODE is defined in .ode source file in
+	XPPAUT style(see B.Ermentrout
+	http://www.math.pitt.edu/~bard/xpp/xpp.html), then it should  be
+	processed to get output as .c source file, after it compilation is
+	done and finally we get executable.
+
+2010-02-18  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (numerics_interp): Once you edit values
+	for local dim or total dim or number of par, then we reinitialize
+	stuff, like arrays of many many kinds.
+
+2010-02-16  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/trajectory.c (traj): Determining regime/attractor of single
+	ODE system,e.g. total_dim=1. Periodic(L.C) or steady state(fixed
+	point). 
+
+2010-02-10  Elias Potapov  <elias.potapov@gmail.com>
+
+	* src/input_interpreter.c (rand_interp): New random system. It
+	takes as a seed first number from file /proc/uptime, which means
+	how many seconds computer is on. So seed is every time
+	different. Also included MAX_RND and MIN_RND for upper and lower
+	bounds to generate initial conditions, just like it is in
+	singularity algorithm with finding roots. So now the program does
+	not use max_x and min_x values and this prevents the bad situation
+	happening with fixed points, when max_x==min_x, so the range
+	max_x-min_x==0. That was odd.
+

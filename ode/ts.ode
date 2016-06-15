@@ -1,0 +1,16 @@
+# Toggle Switch example
+# two mutually inhibiting proteins
+
+x'=alpha/(1+y^n)-d*x
+y'=alpha/(1+x^n)-d*y
+
+init x=10,y=0
+par alpha=1,n=2,d=0.1
+
+g:alpha/(1+x^n);+y
+g:alpha/(1+y^n);+x
+g:d*x;-x
+g:d*y;-y
+
+@method=complex,method2=rkf45,sf=1,total=10000
+done

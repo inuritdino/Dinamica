@@ -1,0 +1,26 @@
+# bruss3.ode
+# three Brusselators coupled by the diffusion
+
+# The next statement determines the number of
+# coupled systems (sub-systems).
+%system 3
+
+du1/dt=f(u1,v1)
+dv1/dt=g(u1,v1)+dv*((v1+v2+v3)/3 - v1)
+du2/dt=f(u2,v2)
+dv2/dt=g(u2,v2)+dv*((v1+v2+v3)/3 - v2)
+du3/dt=f(u3,v3)
+dv3/dt=g(u3,v3)+dv*((v1+v2+v3)/3 - v3)
+
+f(x,y)=a-(b+1)*x+y*x^2
+g(x,y)=b*x-y*x^2
+
+#jac u1=-(b+1)+2*v1*u1-du,u1^2,du,0
+#jac v1=b-2*v1*u1,-u1^2-dv,0,dv
+#jac u2=-(b+1)+2*v2*u2+du,u1^2,-du,0
+#jac v2=b-2*v2*u2,-u1^2-dv,0,dv
+
+par b=14,a=1,dv=.1
+init u1=10,u2=1,u3=5,v1=1.5,v2=15,v3=4
+@dt=0.0001,total=300,yax=v1,yax2=v2,yax3=v3
+done
