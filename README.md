@@ -1,5 +1,5 @@
 ***********************
-## DINAMICA
+### DINAMICA
 ***********************
 
 Dinamica is intended to provide a general interface to the analysis of the
