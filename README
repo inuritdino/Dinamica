@@ -38,6 +38,9 @@ compilation).
 
 Quick installation:
 1. Dowload the archive (usually .zip or .tar.gz) and uncompress it.
+1a. NOTE: this repository contains the configuration files generated with ver. 1-14 of GNU autotools.
+If your version differs one needs to run `aclocal` and `automake` first to regenerate the
+configuration files for the updated autotools.
 2. Configure the systemm by typing "./configure". This will check for all the
 requirements and complain if any of those is not found. You may consider CPPFLAGS
 and LDFLAGS variables, as well as --prefix option to ./configure, before
